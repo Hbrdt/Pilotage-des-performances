@@ -167,8 +167,27 @@ function exporterBilan() {
     });
 }
 
+// --- FONCTION RACCOURCI VERS LES FORMULES ---
+function allerAuxFormules() {
+    // 1. On récupère tous les liens de navigation en haut
+    let tablinks = document.getElementsByClassName("tab-link");
+    
+    // 2. On cherche celui qui s'appelle "Formules" et on clique dessus virtuellement
+    for (let i = 0; i < tablinks.length; i++) {
+        if (tablinks[i].innerText.includes("Formules")) {
+            tablinks[i].click();
+            
+            // 3. On remonte l'écran tout en haut en douceur
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            break;
+        }
+    }
+}
+
 // --- INITIALISATION ---
 window.onload = function() { 
     runAll('init'); 
     calculerBilan(); 
 };
+
+
