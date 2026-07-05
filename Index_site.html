@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outil Master de Pilotage des Performances</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Outil Master de Pilotage des Performances</h1>
+    </header>
+
+    <ul class="nav-tabs">
+        <li class="tab-link active" onclick="switchTab(event, 'tab-inputs')">Saisie & Indicateurs</li>
+        <li class="tab-link" onclick="switchTab(event, 'tab-advanced')">Analyses Avancées</li>
+        <li class="tab-link" onclick="switchTab(event, 'tab-simulation')">Simulateur Stratégique</li>
+        <li class="tab-link" onclick="switchTab(event, 'tab-bilan-comptable')">Annexe : Bilan</li>
+        <li class="tab-link" onclick="switchTab(event, 'tab-bilan')">Bilan Rapide & Export 📸</li>
+    </ul>
+
+    <div class="container">
+        
+        <div id="tab-inputs" class="tab-content active">
+            <div class="grid">
+                <div class="card">
+                    <h2>1. Décomposition des Coûts</h2>
+                    <div class="form-group"><label>Prix d'Achat Base (€) :</label><input type="number" id="p_catalogue" value="100" oninput="runAll(this.id)"></div>
+                    <div class="form-group"><label>Remise (%) :</label><input type="number" id="p_remise" value="0" oninput="runAll(this.id)"></div>
+                    <div class="form-group"><label>Frais de Livraison (€) :</label><input type="number" id="f_livraison" value="5" oninput="runAll(this.id)"></div>
+                    <div class="form-group"><label>Frais d'Emballage (€) :</label><input type="number" id="f_emballage" value="2" oninput="runAll(this.id)"></div>
+                    <div class="result-box">
+                        <div class="result-line"><span>Prix d'Achat Net HT :</span><span id="r_panet" class="value">0.00 €</span></div>
+                        <div class="result-line"><span>Coût de Revient :</span><span id="r_crevient" class="value">0.00 €</span></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>2. Tarification & Marges</h2>
+                    <div class="form-group"><label>Prix de Vente HT (€) :</label><input type="number" id="pv_ht" value="180" oninput="runAll(this.id)"></div>
+                    <div class="form-group"><label>Taux de TVA (%) :</label><input type="number" id="t_tva" value="20" oninput="runAll(this.id)"></div>
+                    <div class="result-box">
+                        <div class="result-line"><span>Prix de Vente Net HT :</span><span id="r_pvnet_ht" class="value">0.00 €</span></div>
+                        <div class="result-line"><span>Prix de Vente TTC :</span><span id="r_pvttc" class="value">0.00 €</span></div>
+                        <div class="result-line"><span>Marge Commerciale :</span><span id="r_marge" class="value">0.00 €</span></div>
+                        <div class="result-line"><span>Taux de Marque :</span><span id="r_tmarque" class="value">0.00 %</span></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>3. Indicateurs d'Activité</h2>
+                    <div class="form-group"><label>Clients Entrés :</label><input type="number" id="c_entres" value="1000" oninput="runAll(this.id)"></div>
+                    <div class="form-group"><label>Clients Servis :</label><input type="number" id="c_servis" value="250" oninput="runAll(this.id)"></div>
+                    <div class="form-group"><label>Quantité Vendue :</label><input type="number" id="q_total" value="500" oninput="runAll(this.id)"></div>
+                    <div class="result-box">
+                        <div class="result-line"><span>Taux de Transformation :</span><span id="r_ttrans" class="value">0.00 %</span></div>
+                        <div class="result-line"><span>CA global HT :</span><span id="r_ca_global" class="value">0.00 €</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-advanced" class="tab-content">
+            <div class="grid">
+                <div class="card">
+                    <h2>4. Analyse d'Élasticité</h2>
+                    <div class="form-group"><label>Prix Initial P0 (€) :</label><input type="number" id="v_p0" value="180" oninput="runAll(this.id)"></div>
+                    <div class="form-group"><label>Prix Final P1 (€) :</label><input type="number" id="v_p1" value="160" oninput="runAll(this.id)"></div>
+                    <div class="form-group"><label>Quantité Initiale Q0 :</label><input type="number" id="v_q0" value="500" oninput="runAll(this.id)"></div>
+                    <div class="form-group"><label>Quantité Finale Q1 :</label><input type="number" id="v_q1" value="650" oninput="runAll(this.id)"></div>
+                    <div class="result-box">
+                        <div class="result-line"><span>Élasticité Prix :</span><span id="r_elasticite" class="value">0.00</span></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>5. Analyse Point Mort</h2>
+                    <div class="form-group"><label>Charges Fixes (€) :</label><input type="number" id="sr_cf" value="20000" oninput="runAll(this.id)"></div>
+                    <div class="form-group"><label>Coûts Variables (€) :</label><input type="number" id="sr_cv" value="30000" oninput="runAll(this.id)"></div>
+                    <div class="result-box">
+                        <div class="result-line"><span>Seuil de Rentabilité :</span><span id="r_seuil" class="value">0.00 €</span></div>
+                        <div class="result-line"><span>Résultat Net :</span><span id="r_resultat" class="value">0.00 €</span></div>
+                    </div>
+                </div>
+                
+                <div class="card"><h2>Structure du Prix</h2><div class="chart-container"><canvas id="chartPrix"></canvas></div></div>
+                <div class="card"><h2>Évolution CA vs Marge</h2><div class="chart-container"><canvas id="chartEvolution"></canvas></div></div>
+            </div>
+        </div>
+
+        <div id="tab-simulation" class="tab-content">
+            <div class="grid" style="grid-template-columns: 1fr;">
+                <div class="card">
+                    <h2>Paramètres du Simulateur</h2>
+                    <div class="grid">
+                        <div>
+                            <div class="form-group"><label>Coût Revient (€) :</label><input type="number" id="sim_cout" readonly style="background-color: #e9ecef;"></div>
+                            <div class="form-group"><label>Prix Réf P0 (€) :</label><input type="number" id="sim_p0" value="180" oninput="runAll(this.id)"></div>
+                        </div>
+                        <div>
+                            <div class="form-group"><label>Volume Réf Q0 :</label><input type="number" id="sim_q0" value="500" oninput="runAll(this.id)"></div>
+                            <div class="form-group"><label>Élasticité :</label><input type="number" id="sim_elast" value="-1.5" step="0.1" oninput="runAll(this.id)"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid">
+                <div class="card"><h2>Matrice</h2><table id="matrixTable"><thead><tr><th>Prix HT</th><th>Volume</th><th>CA HT</th><th>Marge</th></tr></thead><tbody id="matrixBody"></tbody></table></div>
+                <div class="card"><h2>Courbe de Marge</h2><div class="chart-container-large"><canvas id="chartSimulation"></canvas></div></div>
+            </div>
+        </div>
+
+        <div id="tab-bilan-comptable" class="tab-content">
+            <div class="grid">
+                <div class="card">
+                    <h2>ACTIF (Emplois)</h2>
+                    <p><em>Ce que possède l'entreprise.</em></p>
+                    
+                    <h3>Actif Immobilisé (+ 1 an)</h3>
+                    <div class="form-group"><label>Incorporel :</label><input type="number" id="a_incorporel" value="0" oninput="calculerBilan()"></div>
+                    <div class="form-group"><label>Corporel :</label><input type="number" id="a_corporel" value="50000" oninput="calculerBilan()"></div>
+                    <div class="form-group"><label>Financier :</label><input type="number" id="a_financier" value="0" oninput="calculerBilan()"></div>
+
+                    <h3>Actif Circulant (- 1 an)</h3>
+                    <div class="form-group"><label>Stocks :</label><input type="number" id="a_stocks" value="15000" oninput="calculerBilan()"></div>
+                    <div class="form-group"><label>Créances Clients :</label><input type="number" id="a_creances" value="5000" oninput="calculerBilan()"></div>
+                    <div class="form-group"><label>Disponibilités :</label><input type="number" id="a_treso" value="10000" oninput="calculerBilan()"></div>
+
+                    <div class="result-box" style="background-color: #d1ecf1; margin-top: 20px;">
+                        <div class="result-line" style="font-size: 1.2rem;"><span>TOTAL ACTIF :</span><span id="total_actif" style="color: #0c5460;">0.00 €</span></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>PASSIF (Ressources)</h2>
+                    <p><em>Ce que doit l'entreprise.</em></p>
+
+                    <h3>Capitaux Propres</h3>
+                    <div class="form-group"><label>Capital :</label><input type="number" id="p_capital" value="20000" oninput="calculerBilan()"></div>
+                    <div class="form-group"><label>Réserves :</label><input type="number" id="p_reserves" value="5000" oninput="calculerBilan()"></div>
+                    <div class="form-group"><label>Résultat Net :</label><input type="number" id="p_resultat" value="10000" oninput="calculerBilan()"></div>
+
+                    <h3>Dettes</h3>
+                    <div class="form-group"><label>Emprunts :</label><input type="number" id="p_emprunts" value="30000" oninput="calculerBilan()"></div>
+                    <div class="form-group"><label>Dettes Fournisseurs :</label><input type="number" id="p_fournisseurs" value="10000" oninput="calculerBilan()"></div>
+                    <div class="form-group"><label>Dettes Fiscales/Sociales :</label><input type="number" id="p_etat" value="5000" oninput="calculerBilan()"></div>
+
+                    <div class="result-box" style="background-color: #f8d7da; margin-top: 20px;">
+                        <div class="result-line" style="font-size: 1.2rem;"><span>TOTAL PASSIF :</span><span id="total_passif" style="color: #721c24;">0.00 €</span></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="bilan_alert" class="balance-alert"></div>
+        </div>
+
+        <div id="tab-bilan" class="tab-content">
+            <div style="text-align: center; margin-bottom: 20px;"><button onclick="exporterBilan()" class="export-btn">📸 Télécharger le Bilan</button></div>
+            <div id="capture-zone" style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); max-width: 800px; margin: 0 auto; border: 2px solid #2c3e50;">
+                <h1 style="color: #2c3e50; text-align: center; border-bottom: 2px solid #ecf0f1; padding-bottom: 10px;">Rapport de Performance</h1>
+                <div class="grid" style="margin-top: 20px;">
+                    <div><h3 style="color: #2980b9;">Unitaire</h3><p>Coût: <span id="b_cout" style="color:#e74c3c;"></span></p><p>Prix Vente: <span id="b_pvht"></span></p><p>Marge: <span id="b_marge" style="color:#27ae60;"></span></p><p>Taux Marque: <span id="b_tmarque"></span></p></div>
+                    <div><h3 style="color: #2980b9;">Global</h3><p>Quantité: <span id="b_q"></span></p><p>Tx Transfo: <span id="b_ttrans"></span></p><p>CA: <span id="b_ca" style="font-weight:bold;"></span></p><p>Résultat: <span id="b_resultat"></span></p></div>
+                </div>
+                <div style="background-color: #e8f4f8; padding: 15px; border-radius: 6px; margin-top: 20px; text-align: center;">
+                    <h3 style="margin-top: 0; color: #2c3e50;">Recommandation Stratégique</h3>
+                    <p>Prix optimal : <strong style="color: #27ae60; font-size: 1.2rem;" id="b_prix_opti">0.00 €</strong> (Marge Max: <strong style="color: #27ae60;" id="b_marge_max">0.00 €</strong>)</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
