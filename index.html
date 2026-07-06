@@ -25,6 +25,11 @@
 
     <div class="container">
         <div id="tab-inputs" class="tab-content active">
+
+            <div style="text-align: right; margin-bottom: 15px;">
+                <button onclick="allerAuxFormules()" class="formules-btn" style="width: auto; padding: 8px 15px;">📖 Raccourci : Rappel des Formules</button>
+            </div>
+            
             <div class="grid">
                 <div class="card">
                     <h2>1. Décomposition des Coûts</h2>
@@ -171,7 +176,25 @@
                 </div>
             </div>
         </div>
-        
+        <div id="tab-formulas" class="tab-content">
+    <div class="card">
+        <h2>Aide-Mémoire & Formules du Cours</h2>
+        <table>
+            <thead><tr><th>Indicateur</th><th>Formule Appliquée</th></tr></thead>
+            <tbody>
+                <tr><td>Coût de Revient</td><td>Prix d'Achat Net + Frais d'achat</td></tr>
+                <tr><td>Marge Commerciale</td><td>Prix Vente HT - Coût de Revient</td></tr>
+                <tr><td>Taux de Marge</td><td>(Marge / Coût d'Achat) * 100</td></tr>
+                <tr><td>Taux de Marque</td><td>(Marge / Prix Vente HT) * 100</td></tr>
+                <tr><td>Coefficient Multiplicateur</td><td>Prix de Vente TTC / Prix d'Achat HT</td></tr>
+                <tr><td>Élasticité Prix (e)</td><td>[ (Q1 - Q0) / Q0 ] / [ (P1 - P0) / P0 ]</td></tr>
+                <tr><td>Variation du CA global</td><td>Δ Prix + Δ Quantité + (Δ Prix * Δ Quantité)</td></tr>
+                <tr><td>Effet de levier à la marge</td><td>1 / Taux de Marque</td></tr>
+                <tr><td>Seuil de Rentabilité</td><td>Charges Fixes / Taux de Marge sur Coût Variable</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 </div>
 
     </div>
