@@ -51,10 +51,10 @@ function calculerBilan() {
     
     if (ecart === 0) {
         alertBox.className = "balance-alert balance-ok";
-        alertBox.innerText = "✅ Bilan Équilibré (Actif = Passif)";
+        alertBox.innerText = "Bilan Équilibré (Actif = Passif)";
     } else {
         alertBox.className = "balance-alert balance-ko";
-        alertBox.innerText = "❌ Bilan Déséquilibré ! Écart de : " + Math.abs(ecart).toFixed(2) + " €";
+        alertBox.innerText = "Bilan Déséquilibré ! Écart de : " + Math.abs(ecart).toFixed(2) + " €";
     }
 }
 
@@ -133,7 +133,7 @@ function calculSimulation() {
     scenarios.forEach(sc => {
         let isOpti = sc.mg === bestMarge && bestMarge > 0;
         if(isOpti) { prixOptimal = sc.p.toFixed(2) + " €"; margeMax = sc.mg.toFixed(2) + " €"; }
-        matrixBody.innerHTML += `<tr class="${isOpti ? 'optimal' : (sc.mg < 0 ? 'deficit' : '')}"><td>${sc.p.toFixed(2)} € ${isOpti ? '⭐' : ''}</td><td>${sc.q}</td><td>${sc.ca.toFixed(0)} €</td><td>${sc.mg.toFixed(0)} €</td></tr>`;
+        matrixBody.innerHTML += `<tr class="${isOpti ? 'optimal' : (sc.mg < 0 ? 'deficit' : '')}"><td>${sc.p.toFixed(2)} € ${isOpti ? '' : ''}</td><td>${sc.q}</td><td>${sc.ca.toFixed(0)} €</td><td>${sc.mg.toFixed(0)} €</td></tr>`;
     });
 
     if (chartSimuInstance) { chartSimuInstance.data.labels = labelsPrices; chartSimuInstance.data.datasets[0].data = dataMargeGlobale; chartSimuInstance.update(); } 
